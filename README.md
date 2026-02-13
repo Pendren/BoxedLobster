@@ -80,7 +80,3 @@ We have pre-configured `config/openclaw.json` to bypass these issues:
 2.  **Network Binding**: Gateway is configured to bind to `lan` (`0.0.0.0`), allowing Docker port forwarding.
 
 > **Important**: Do not revert these settings in `config/openclaw.json` unless you have a specific method to handle interactive pairing or host networking.
-=======
-# BoxedLobster
-run clawdbot in a container
->>>>>>> f94cf595226123c96f6679d3936e9a857d6151ba
