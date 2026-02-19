@@ -1,0 +1,11 @@
+{
+  "name": "boxed-lobster-control-plane",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local web control plane for spawning isolated OpenClaw containers",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "check": "node --check src/server.js"
+  }
+}
