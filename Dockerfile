@@ -54,8 +54,7 @@ EXPOSE 18789
 
 COPY config/openclaw.json /opt/boxed-lobster/openclaw.json
 COPY entrypoint.sh /entrypoint.sh
-
-RUN chmod +x /entrypoint.sh && chown -R agent:agent /home/agent /opt/boxed-lobster
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh && chown -R agent:agent /home/agent /opt/boxed-lobster
 
 USER agent
 
