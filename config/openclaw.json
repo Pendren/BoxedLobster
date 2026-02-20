@@ -1,31 +1,31 @@
 {
-    "agents": {
-        "defaults": {
-            "model": {
-                "primary": "google/gemini-1.5-pro-latest"
-            }
-        }
-    },
-    "gateway": {
-        "bind": "lan",
-        "port": 18789,
-        "mode": "remote",
-        "controlUi": {
-            "allowInsecureAuth": true
-        },
-        "trustedProxies": [
-            "127.0.0.1",
-            "::1",
-            "172.16.0.0/12",
-            "192.168.0.0/16",
-            "10.0.0.0/8"
-        ],
-        "auth": {
-            "mode": "password",
-            "password": "1234"
-        },
-        "remote": {
-            "password": "1234"
-        }
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "__OPENCLAW_MODEL_PRIMARY__"
+      }
     }
+  },
+  "gateway": {
+    "bind": "lan",
+    "port": 18789,
+    "mode": "remote",
+    "controlUi": {
+      "allowInsecureAuth": true
+    },
+    "trustedProxies": [
+      "127.0.0.1",
+      "::1",
+      "172.16.0.0/12",
+      "192.168.0.0/16",
+      "10.0.0.0/8"
+    ],
+    "auth": {
+      "mode": "password",
+      "password": "__OPENCLAW_PASSWORD__"
+    },
+    "remote": {
+      "password": "__OPENCLAW_PASSWORD__"
+    }
+  }
 }

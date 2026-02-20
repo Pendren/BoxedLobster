@@ -1,6 +1,5 @@
 FROM node:22-bookworm-slim
 
-# Install dependencies for Chromium and OpenClaw
 RUN apt-get update && apt-get install -y \
     chromium \
     ca-certificates \
@@ -43,21 +42,21 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install OpenClaw globally with verbose logging
 RUN npm install -g npm@latest && \
     npm config set registry https://registry.npmjs.org/ && \
     npm install -g openclaw@latest --verbose
 
-# Create working directory
-WORKDIR /app
+RUN useradd --create-home --shell /bin/bash --uid 10001 agent
 
-# Expose Gateway port
+WORKDIR /home/agent
+
 EXPOSE 18789
 
-# Copy configuration and entrypoint
-COPY config/openclaw.json /root/.openclaw/openclaw.json
+COPY config/openclaw.json /opt/boxed-lobster/openclaw.json
 COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && chown -R agent:agent /home/agent /opt/boxed-lobster
+
+USER agent
 
 ENTRYPOINT ["/entrypoint.sh"]
