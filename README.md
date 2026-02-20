@@ -32,7 +32,7 @@ This keeps agent file operations scoped to container-managed storage. No host di
 
 - Docker installed and running.
 - Node.js 22+ (for the local control plane process).
-- At least one Gemini key env var: `GOOGLE_API_KEY` or `GEMINI_API_KEY`.
+- `GOOGLE_API_KEY` (current default provider in OpenClaw config).
 
 ## Setup
 
@@ -57,8 +57,6 @@ npm start
 
 Open `http://localhost:3000` and click **Spawn agent session**.
 
-The UI includes diagnostics so you can quickly verify whether API keys are loaded (a common cause of "thinking forever" with no answer).
-
 Each session shows:
 
 - Gateway WebSocket URL (for clients)
@@ -69,7 +67,6 @@ Each session shows:
 ## API endpoints
 
 - `GET /health`
-- `GET /api/diagnostics`
 - `GET /api/sessions`
 - `POST /api/sessions`
 - `DELETE /api/sessions/:sessionId`
@@ -84,6 +81,6 @@ This layout supports your next phase goals:
 
 ## Environment variables
 
-See `.env.example` (including `OPENCLAW_MODEL_PRIMARY` if you want to swap model IDs).
+See `.env.example`.
 
 Important: `.env` is ignored by git and should never be committed.

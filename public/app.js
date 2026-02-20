@@ -1,20 +1,6 @@
 const sessionsEl = document.getElementById('sessions');
 const statusEl = document.getElementById('status');
 const createBtn = document.getElementById('create-session');
-const diagnosticsEl = document.getElementById('diagnostics');
-
-
-async function loadDiagnostics() {
-  const response = await fetch('/api/diagnostics');
-  const data = await response.json();
-  if (!data.hasGoogleApiKey && !data.hasGeminiApiKey) {
-    diagnosticsEl.textContent = 'Warning: no GOOGLE_API_KEY/GEMINI_API_KEY configured in control plane env; agent replies will fail.';
-    diagnosticsEl.className = 'warning';
-    return;
-  }
-  diagnosticsEl.textContent = `Model: ${data.model}`;
-  diagnosticsEl.className = '';
-}
 
 async function fetchSessions() {
   const response = await fetch('/api/sessions');
@@ -62,6 +48,5 @@ createBtn.onclick = async () => {
   await refresh();
 };
 
-loadDiagnostics();
 refresh();
 setInterval(refresh, 15000);

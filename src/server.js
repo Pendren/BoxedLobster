@@ -13,7 +13,6 @@ const SESSION_PORT_START = Number.parseInt(process.env.SESSION_PORT_START || '19
 const SESSION_PORT_END = Number.parseInt(process.env.SESSION_PORT_END || '19999', 10);
 const SESSION_TTL_MINUTES = Number.parseInt(process.env.SESSION_TTL_MINUTES || '120', 10);
 const OPENCLAW_PASSWORD = process.env.OPENCLAW_PASSWORD || '1234';
-const OPENCLAW_MODEL_PRIMARY = process.env.OPENCLAW_MODEL_PRIMARY || 'google/gemini-1.5-pro-latest';
 
 const sessions = new Map();
 
@@ -100,12 +99,7 @@ async function createSession() {
     '--tmpfs', '/home/agent/.openclaw:rw,noexec,nosuid,size=64m',
     '-v', `${volumeName}:/home/agent/workspace`,
     '-e', `GOOGLE_API_KEY=${process.env.GOOGLE_API_KEY || ''}`,
-    '-e', `GEMINI_API_KEY=${process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || ''}`,
     '-e', `OPENCLAW_PASSWORD=${OPENCLAW_PASSWORD}`,
-    '-e', `OPENCLAW_MODEL_PRIMARY=${OPENCLAW_MODEL_PRIMARY}`,
-    '--tmpfs', '/home/agent/.cache:rw,nosuid,size=256m',
-    '--tmpfs', '/home/agent/.config:rw,nosuid,size=64m',
-    '--tmpfs', '/home/agent/.local/share:rw,nosuid,size=64m',
     '-p', `${port}:${GATEWAY_INTERNAL_PORT}`,
     OPENCLAW_IMAGE
   ];
@@ -170,17 +164,6 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && requestUrl.pathname === '/health') {
     return json(res, 200, { ok: true, activeSessions: sessions.size });
-  }
-
-
-  if (req.method === 'GET' && requestUrl.pathname === '/api/diagnostics') {
-    return json(res, 200, {
-      dockerImage: OPENCLAW_IMAGE,
-      model: OPENCLAW_MODEL_PRIMARY,
-      hasGoogleApiKey: Boolean(process.env.GOOGLE_API_KEY),
-      hasGeminiApiKey: Boolean(process.env.GEMINI_API_KEY),
-      activeSessions: sessions.size
-    });
   }
 
   if (req.method === 'GET' && requestUrl.pathname === '/api/sessions') {
