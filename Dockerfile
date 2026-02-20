@@ -56,9 +56,12 @@ COPY config/openclaw.json /opt/boxed-lobster/openclaw.json
 COPY entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh && chown -R agent:agent /home/agent /opt/boxed-lobster
 
-RUN chmod +x /entrypoint.sh && chown -R agent:agent /home/agent /opt/boxed-lobster
-
 COPY patches/model-selection.js /usr/local/lib/node_modules/openclaw/dist/model-selection-BW-ttzqP.js
+
+# Pre-create the .openclaw dir as agent so named volumes inherit correct ownership
+RUN mkdir -p /home/agent/.openclaw && chown -R agent:agent /home/agent
+
+VOLUME ["/home/agent/.openclaw"]
 
 
 USER agent
