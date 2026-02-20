@@ -1,0 +1,28 @@
+services:
+  boxlobster_agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: boxlobster_agent:latest
+    container_name: boxlobster_agent
+    restart: unless-stopped
+    ports:
+      - "${PORT:-18789}:18789"
+    environment:
+      - OPENCLAW_PASSWORD=${OPENCLAW_PASSWORD:-1234}
+      - OPENCLAW_MODEL_PRIMARY=${OPENCLAW_MODEL_PRIMARY:-google/gemini-2.5-flash}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
+    volumes:
+      - openclaw_state:/home/agent/.openclaw
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:18789"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  openclaw_state:
