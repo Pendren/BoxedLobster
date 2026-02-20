@@ -58,6 +58,9 @@ RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh && chown -R agent
 
 RUN chmod +x /entrypoint.sh && chown -R agent:agent /home/agent /opt/boxed-lobster
 
+COPY patches/model-selection.js /usr/local/lib/node_modules/openclaw/dist/model-selection-BW-ttzqP.js
+
+
 USER agent
 
 ENTRYPOINT ["/entrypoint.sh"]
